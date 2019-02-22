@@ -1,9 +1,17 @@
 #!/bin/sh
 
+export PATH=$(echo "$PATH" | sed -e 's/:\~\/cloud-cli$//')
 echo "removing ~/cloud-cli"
 rm -r ~/cloud-cli
-echo "committing latest state of containe"
-docker commit fjkghkfjh glfshl
+echo "committing latest state of container"
+ID=$(docker ps -aqf "name=cloud-cli")
+COMMITTEDID=$(docker commit $ID)
+echo "Committed comtainer ID: $COMMITTEDID"
 echo "stopping the container"
 docker stop cloud-cli
-echo "to share this state, execute 'docker push,dflkjlks'"
+cat << EOF
+to share this state, you can push this image to a PRIVATE registry.
+execute:
+  docker tag $CONTAINERID -t <registry>:<repository>:<tag>
+  docker push <registry>:<repository>:<tag>
+EOF
