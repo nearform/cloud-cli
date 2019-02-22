@@ -2,10 +2,8 @@ FROM buildpack-deps:jessie
 
 ENV HELM_VERSION v2.5.0
 ENV IAM_AUTH_VERSION 1.11.5
-ENV HELM_VERSION v2.13.0
+ENV HELM_VERSION v2.9.0
 ENV TERRAFORM_VERSION 0.11.11
-
-ADD ./scripts /src/ci/scripts
 
 USER root
 
@@ -23,10 +21,11 @@ RUN apt-get install -y \
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
 		echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list  && \
 		apt-get update  && \
-		apt-get install -y kubectl
+		apt-get install -y kubectl && \
+		ln -s /usr/bin/kubectl /usr/local/bin/kubectl
 
 # install helm
-RUN curl -o helm-$HELM_VERSION-linux-amd64.tgz https://storage.googleapis.com/kubernetes-helm/helm-$HELM_VERSION-rc.2-linux-amd64.tar.gz && \
+RUN curl -o helm-$HELM_VERSION-linux-amd64.tgz https://storage.googleapis.com/kubernetes-helm/helm-$HELM_VERSION-linux-amd64.tar.gz && \
 		tar -zxvf helm-$HELM_VERSION-linux-amd64.tgz && \
 		mv linux-amd64/helm /usr/local/bin/helm
 
@@ -55,3 +54,8 @@ RUN curl -o terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_V
 		unzip terraform.zip && \
 		chmod +x terraform && \
 		mv terraform /usr/local/bin/terraform
+
+ADD ./scripts /src/scripts
+RUN mkdir /src/scripts_shared
+
+CMD ./src/scripts/run.sh

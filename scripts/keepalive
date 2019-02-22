@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "Copying the commands to ~/cloud-cli"
+cp /src/scripts/setup.sh /src/scripts_shared/setup.sh
+cp /src/scripts/stop /src/scripts_shared/stop
+cp /src/scripts/terraform.sh /src/scripts_shared/terraform
+cp /src/scripts/kubectl.sh /src/scripts_shared/kubectl
+cp /src/scripts/kubeseal.sh /src/scripts_shared/kubeseal
+cp /src/scripts/aws.sh /src/scripts_shared/aws
+cp /src/scripts/helm.sh /src/scripts_shared/helm
+cp /src/scripts/jq.sh /src/scripts_shared/jq
+cp /src/scripts/aws-iam-authenticator.sh /src/scripts_shared/aws-iam-authenticator
+ls -l /src/scripts_shared/
+
+while true; do
+  sleep 10
+done

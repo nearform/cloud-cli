@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "removing ~/cloud-cli"
+rm -r ~/cloud-cli
+echo "committing latest state of containe"
+docker commit fjkghkfjh glfshl
+echo "stopping the container"
+docker stop cloud-cli
+echo "to share this state, execute 'docker push,dflkjlks'"
